@@ -28,10 +28,11 @@ app.on("request", (req, res) => {
       res.end();
     });
   } else {
-    fs.readFile(routeResponseMap["/error"], (error, data) => {
     console.log('Error:',d)
-    res.end(routeResponseMap["/error"]);
-  });
+    fs.readFile(routeResponseMap["/error"], (error, data) => {
+      res.write(data);
+      res.end();
+    });
   }
 });
 app.listen(port);
