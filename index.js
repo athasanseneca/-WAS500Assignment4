@@ -1,7 +1,7 @@
 const port = 3000;
 const http = require("http");
 const httpStatus = require("http-status-codes");
-const router = require("./router");
+const router = require("./router.js");
 const fs = require("fs");
 
 const customReadFile = (file, res) => {
@@ -16,7 +16,7 @@ const customReadFile = (file, res) => {
 
 router.get("/lab1-css.css", (req, res) => {
   res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("public/css/lab1-css.css", res);
+  customReadFile("public/css/lab_css.css", res);
 });
 
 router.get("/", (req, res) => {
@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
   customReadFile("views/index.html", res);
   var url = req.url;
   var date = new Date();
-  console.log("Request recieved for page", url," at ", date);
+  console.log("Page recieved a request ", url," at ", date);
 });
 
 router.get("/books.html", (req, res) => {
@@ -32,7 +32,7 @@ router.get("/books.html", (req, res) => {
   customReadFile("views/books.html", res);
   var url = req.url;
   var date = new Date();
-  console.log("Request recieved for page", url," at ", date);
+  console.log("Page recieved a request", url," at ", date);
 });
 
 
@@ -41,12 +41,12 @@ router.get("/book1.html", (req, res) => {
   customReadFile("views/book1.html", res);
   var url = req.url;
   var date = new Date();
-  console.log("Request recieved for page", url," at ", date);
+  console.log("Page recieved a request", url," at ", date);
 });
 
-router.get("/p1.png", (req, res) => {
+router.get("images/p1.png", (req, res) => {
   res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("public/images/the-lightning-thief-215x300.png", res);
+  customReadFile("/public/images/p1.png", res);
 });
 
 router.get("/book2.html", (req, res) => {
@@ -54,12 +54,12 @@ router.get("/book2.html", (req, res) => {
   customReadFile("views/book2.html", res);
   var url = req.url;
   var date = new Date();
-  console.log("Request recieved for page", url," at ", date);
+  console.log("Page recieved a request", url," at ", date);
 });
 
 router.get("/p2.png", (req, res) => {
   res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("public/images/p2.png", res);
+  customReadFile("public/images/p2.jpg", res);
 });
 
 router.get("/book3.html", (req, res) => {
@@ -67,12 +67,12 @@ router.get("/book3.html", (req, res) => {
   customReadFile("views/book3.html", res);
   var url = req.url;
   var date = new Date();
-  console.log("Request recieved for page", url," at ", date);
+  console.log("Page recieved a request", url," at ", date);
 });
 
-router.get("/p3.png", (req, res) => {
+router.get("/p3.jpg", (req, res) => {
   res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("public/images/the-titans-curse-3D-215x300.png", res);
+  customReadFile("public/images/p3.jpg", res);
 });
 
 
@@ -82,4 +82,4 @@ router.post("/", (req, res) => {
 });
 
 http.createServer(router.handle).listen(3000);
-console.log(`The server is listening on port number: ${port}`);
+console.log(`The server is starting on port number : ${port}`);

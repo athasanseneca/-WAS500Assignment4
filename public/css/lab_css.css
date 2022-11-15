@@ -1,6 +1,6 @@
 /*background page*/
 body {
-    background-image: url('./images/background.jpg');
+    background-image: url('/public/images/background.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
