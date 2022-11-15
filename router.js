@@ -1,16 +1,20 @@
+const fs = require("fs");
+
+const customReadFile = (file, res) => {
+  fs.readFile(`./${file}`, (errors, data) => {
+    if (errors) {
+      console.log("Error reading the file...");
+    }
+    res.end(data);
+  });
+};
+
 const httpStatus = require("http-status-codes"),
   htmlContentType = {
     "Content-Type": "text/html",
   };
 const routes = {
-  GET: {
-    "/info": (req, res) => {
-      res.writeHead(httpStatus.StatusCodes.OK, {
-        "Content-Type": "text/html",
-      });
-      res.end("Welcome to the Info Page!");
-    },
-  },
+  GET: {},
   POST: {},
 };
 
@@ -20,7 +24,10 @@ exports.handle = (req, res) => {
       routes[req.method][req.url](req, res);
     } else {
       res.writeHead(httpStatus.StatusCodes.NOT_FOUND, htmlContentType);
-      res.end("<h1>No such file exists</h1>");
+      var url = req.url;
+      var date = new Date();
+      console.log("Error reading the file ", url, " at ", date);
+      customReadFile("views/404.html", res);
     }
   } catch (ex) {
     console.log("error: " + ex);
