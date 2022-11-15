@@ -1,85 +1,38 @@
 const port = 3000;
 const http = require("http");
 const httpStatus = require("http-status-codes");
-const router = require("./router.js");
+const router = require("./router");
 const fs = require("fs");
-
-const customReadFile = (file, res) => {
-  fs.readFile(`./${file}`, (errors, data) => {
-    if (errors) {
-      var date = new Date();
-      console.log("Error reading the file ", file, " at ", date);
-    } 
-    res.end(data);
+const d = new Date();
+const routeResponseMap = {
+  "/": "views/index.html",
+  "/books.html":"views/books.html",
+  "/book1.html":"views/book1.html",
+  "/book2.html":"views/book2.html",
+  "/book3.html":"views/book3.html",
+  "/p1.jpg":"public/images/p1.jpg",
+  "/p2.jpg":"public/images/p2.jpg",
+  "/p3.jpg":"public/images/p3.jpg",
+  "/error":"views/error.html",
+}
+const app = http.createServer();
+app.on("request", (req, res) => {
+  console.log('Received an incoming request...');
+  res.writeHead(httpStatus.StatusCodes.OK, {
+    "Content-Type": "text/html",
   });
-};
 
-router.get("/lab1-css.css", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("public/css/lab_css.css", res);
+  if (routeResponseMap[req.url]) {
+    fs.readFile(routeResponseMap[req.url], (error, data) => {
+      res.write(data);
+      res.end();
+    });
+  } else {
+    fs.readFile(routeResponseMap["/error"], (error, data) => {
+    console.log('Error:',d)
+    res.end(routeResponseMap["/error"]);
+  });
+  }
 });
-
-router.get("/", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("views/index.html", res);
-  var url = req.url;
-  var date = new Date();
-  console.log("Page recieved a request ", url," at ", date);
-});
-
-router.get("/books.html", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("views/books.html", res);
-  var url = req.url;
-  var date = new Date();
-  console.log("Page recieved a request", url," at ", date);
-});
-
-
-router.get("/book1.html", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("views/book1.html", res);
-  var url = req.url;
-  var date = new Date();
-  console.log("Page recieved a request", url," at ", date);
-});
-
-router.get("images/p1.png", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("/public/images/p1.png", res);
-});
-
-router.get("/book2.html", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("views/book2.html", res);
-  var url = req.url;
-  var date = new Date();
-  console.log("Page recieved a request", url," at ", date);
-});
-
-router.get("/p2.png", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("public/images/p2.jpg", res);
-});
-
-router.get("/book3.html", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("views/book3.html", res);
-  var url = req.url;
-  var date = new Date();
-  console.log("Page recieved a request", url," at ", date);
-});
-
-router.get("/p3.jpg", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  customReadFile("public/images/p3.jpg", res);
-});
-
-
-router.post("/", (req, res) => {
-  res.writeHead(httpStatus.StatusCodes.OK);
-  res.end("POSTED");
-});
-
-http.createServer(router.handle).listen(3000);
-console.log(`The server is starting on port number : ${port}`);
+app.listen(port);
+console.log('The server has started and is listening on port number:$',{port});

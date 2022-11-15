@@ -27,10 +27,10 @@ exports.handle = (req, res) => {
       var url = req.url;
       var date = new Date();
       console.log("Error located ", url, " at ", date);
-      customReadFile("views\error.html", res);
+      customReadFile("/error.html", res);
     }
   } catch (ex) {
-    console.log("error: " + ex);
+    console.log("error page: " + ex);
   }
 };
 
